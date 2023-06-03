@@ -1,7 +1,8 @@
 const express = require("express");
+const cron = require("node-cron");
 
 const { PORT } = require("./config/serverConfig");
-const { sendBasicMail } = require("./services/email-service");
+// const { sendBasicMail } = require("./services/email-service");
 
 const setupAndStartServer = async () => {
   const app = express();
@@ -12,12 +13,15 @@ const setupAndStartServer = async () => {
   app.listen(PORT, async () => {
     console.log("Server Started At Port", PORT);
 
-    await sendBasicMail(
-      "support@admin.com",
-      "keyur.np@somaiya.edu, akshar.parmar@somaiya.edu, v.rajput@somaiya.edu",
-      "Testing Reminder Service",
-      "<h2><center><i> Airline System </i></center></h2> \n <p>Hey! How are you, I hope you like our support...</p> \n <b>Keep learning backend from <font color='olive'>Sanket Singh<font></b>"
-    );
+    cron.schedule("*/2 * * * *", () => {
+      console.log("running a task every two minutes");
+    });
+    // await sendBasicMail(
+    //   "support@admin.com",
+    //   "keyur.np@somaiya.edu, akshar.parmar@somaiya.edu, v.rajput@somaiya.edu",
+    //   "Testing Reminder Service",
+    //   "<h2><center><i> Airline System </i></center></h2> \n <p>Hey! How are you, I hope you like our support...</p> \n <b>Keep learning backend from <font color='olive'>Sanket Singh<font></b>"
+    // );
   });
 };
 
